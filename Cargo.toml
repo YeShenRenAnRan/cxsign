@@ -47,6 +47,7 @@ env_logger = "0.11"
 inquire = "0.7"
 log = { version = "0.4", features = ["release_max_level_info"] }
 chrono = "0.4"
+slint = "1.9"
 
 [profile.release]
 panic = "abort"
@@ -59,5 +60,6 @@ cxlib_captcha = { path = "./cxlib/crates/cxlib_captcha" }
 
 [build-dependencies]
 resvg = "0.44"
-ico = "0.3"
+ico = "0.4"
 embed-resource = "3.0"
+slint-build = "1.9"
