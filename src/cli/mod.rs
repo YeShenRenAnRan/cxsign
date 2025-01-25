@@ -32,8 +32,7 @@ use cxlib::{
     user::Session,
 };
 use log::{info, warn};
-use std::collections::HashMap;
-use std::time::Duration;
+use std::{collections::HashMap, time::Duration};
 
 fn match_signs(
     raw_sign: RawSign,
