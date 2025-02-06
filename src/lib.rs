@@ -15,14 +15,14 @@
 
 pub fn run() {
     use cxlib::{
-        AccountCmdApp, AccountsCmdApp, AppTrait, CmdApp, CmdAppContext, CoursesCmdApp, ListCmdApp,
+        AccountCmdApp, AccountsCmdApp, AppTrait, CmdApp, CmdAppContext, CoursesCmdApp,
         LocationCmdApp, LocationsCmdApp, SignMainApp, WhereIsConfigCmdApp,
     };
     fn init(self_: &CmdApp<CmdAppContext>) -> (CmdAppContext, ()) {
         use cxlib::{
             captcha::CaptchaType,
             default_impl::store::{
-                AccountTable, AliasTable, DataBase, ExcludeTable, LocationTable,
+                AccountTable, AliasTable, CourseTable, DataBase, ExcludeTable, LocationTable,
             },
             store::Dir,
         };
@@ -47,18 +47,18 @@ pub fn run() {
         db.add_table::<ExcludeTable>();
         db.add_table::<AliasTable>();
         db.add_table::<LocationTable>();
+        db.add_table::<CourseTable>();
         (CmdAppContext::new(db, self_.command().clone()), ())
     }
     let cmd_app = CmdApp::new(clap::command!())
-        .main_cmd_app(SignMainApp)
-        .meta_app(ListCmdApp::default())
-        .meta_app(AccountCmdApp::default())
-        .meta_app(AccountsCmdApp::default())
-        .meta_app(CoursesCmdApp::default())
-        .meta_app(LocationCmdApp::default())
-        .meta_app(LocationsCmdApp::default())
-        .meta_app(WhereIsConfigCmdApp::default());
+        .main_app::<SignMainApp>(Default::default())
+        .meta_app(AccountCmdApp)
+        .meta_app(AccountsCmdApp)
+        .meta_app(CoursesCmdApp)
+        .meta_app(LocationCmdApp)
+        .meta_app(LocationsCmdApp)
+        .meta_app(WhereIsConfigCmdApp);
     #[cfg(feature = "completion")]
-    let cmd_app = cmd_app.meta_app(cxlib::CompletionsCmdApp::default());
+    let cmd_app = cmd_app.meta_app(cxlib::CompletionCmdApp);
     cmd_app.init_and_run(init)
 }
