@@ -41,6 +41,6 @@ panic = "abort"
 strip = "symbols"
 
 [build-dependencies]
-resvg = "0.44"
+resvg = "0.45"
 ico = "0.4"
 embed-resource = "3.0"
