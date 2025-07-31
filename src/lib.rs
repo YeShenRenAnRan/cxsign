@@ -13,52 +13,43 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+mod migrate;
+
+use cxlib::{
+    types::{DefaultLoginSolver, UntypedLoginSolver},
+    AccountCmdApp, AccountsCmdApp, AppInfo, AppTrait, CmdApp, CmdAppContext, CoursesCmdApp, Dir,
+    GlobalMultimap, LocationCmdApp, LocationsCmdApp, SignMainApp, WhereIsConfigCmdApp,
+};
+
 pub fn run() {
-    use cxlib::{
-        AccountCmdApp, AccountsCmdApp, AppTrait, CmdApp, CmdAppContext, CoursesCmdApp,
-        LocationCmdApp, LocationsCmdApp, SignMainApp, WhereIsConfigCmdApp,
-    };
     fn init(self_: &CmdApp<CmdAppContext>) -> (CmdAppContext, ()) {
-        use cxlib::{
-            captcha::CaptchaType,
-            default_impl::store::{
-                AccountTable, AliasTable, CourseTable, DataBase, ExcludeTable, LocationTable,
-            },
-            store::Dir,
-        };
-        if let Some(captcha_type) = std::env::var("CX_CAPTCHA_TYPE")
-            .ok()
-            .and_then(|s| s.parse().ok())
-        {
-            let _ = CaptchaType::set_global_default(&captcha_type);
-        }
         let env = env_logger::Env::default().filter_or("RUST_LOG", "info");
         let mut builder = env_logger::Builder::from_env(env);
         builder.target(env_logger::Target::Stderr);
         builder.init();
-        Dir::set_config_dir_info(
+        let app_info = AppInfo::new(
             "TEST_CXSIGN",
             "up.workso",
             "Worksoup",
             env!("CARGO_PKG_NAME"),
         );
-        let db = DataBase::default();
-        db.add_table::<AccountTable>();
-        db.add_table::<ExcludeTable>();
-        db.add_table::<AliasTable>();
-        db.add_table::<LocationTable>();
-        db.add_table::<CourseTable>();
-        (CmdAppContext::new(db, self_.command().clone()), ())
+        let dir = Dir::new_with_app_info(&app_info);
+        let solvers = GlobalMultimap::default();
+        solvers.register_builder(|| UntypedLoginSolver::from_typed(DefaultLoginSolver::default()));
+        (
+            CmdAppContext::new(dir, self_.command().clone(), solvers, app_info),
+            (),
+        )
     }
-    let cmd_app = CmdApp::new(clap::command!())
+    let cmd_app = CmdApp::<CmdAppContext>::new(clap::command!())
         .main_app::<SignMainApp>(Default::default())
-        .meta_app(AccountCmdApp)
-        .meta_app(AccountsCmdApp)
-        .meta_app(CoursesCmdApp)
-        .meta_app(LocationCmdApp)
-        .meta_app(LocationsCmdApp)
-        .meta_app(WhereIsConfigCmdApp);
+        .meta_app::<AccountCmdApp>()
+        .meta_app::<AccountsCmdApp>()
+        .meta_app::<CoursesCmdApp>()
+        .meta_app::<LocationCmdApp>()
+        .meta_app::<LocationsCmdApp>()
+        .meta_app::<WhereIsConfigCmdApp>();
     #[cfg(feature = "completion")]
-    let cmd_app = cmd_app.meta_app(cxlib::CompletionCmdApp);
+    let cmd_app = cmd_app.meta_app::<cxlib::CompletionCmdApp>();
     cmd_app.init_and_run(init)
 }
