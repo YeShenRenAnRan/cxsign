@@ -1,4 +1,4 @@
-# Copyright (C) 2024 worksoup <https://github.com/worksoup/>
+# Copyright (C) 2025 worksoup <https://github.com/worksoup/>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published
@@ -15,7 +15,7 @@
 
 [package]
 name = "cxsign"
-version = "0.5.3"
+version = "0.6.0"
 edition = "2021"
 
 [lib]
@@ -24,30 +24,21 @@ crate-type = ["lib", "cdylib", "staticlib"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [features]
-default = ["completions", "ui_solver"]
-all_ui_solver = ["slide_ui_solver", "ui_solver", "obstacle_ui_solver", "rotate_ui_solver"]
-ui_solver = ["icon_click_ui_solver", "text_click_ui_solver"]
-completions = ["completion-nu", "completion-carapace", "completion-fig"]
-completion-nu = ["clap_complete_command", "clap_complete_command/nushell"]
-completion-carapace = ["clap_complete_command", "clap_complete_command/carapace"]
-completion-fig = ["clap_complete_command", "clap_complete_command/fig"]
-slide_ui_solver = ["cxlib_captcha/slide_ui_solver"]
-rotate_ui_solver = ["cxlib_captcha/rotate_ui_solver"]
-obstacle_ui_solver = ["cxlib_captcha/obstacle_ui_solver"]
-icon_click_ui_solver = ["cxlib_captcha/icon_click_ui_solver"]
-text_click_ui_solver = ["cxlib_captcha/text_click_ui_solver"]
+default = ["cxlib/completion-all"]
+completion = ["cxlib/completion"]
 
 [dependencies]
 # tikv-jemallocator = "0.5"
-clap = { version = "4.5", features = ["derive"] }
-clap_complete_command = { version = "0.6", default-features = false, optional = true }
-cxlib = { path = "cxlib" }
-# cxsign = { path = "../newsign/" }
+inventory = "0.3"
+clap = { version = "4.5" }
+cxlib = { git = "https://github.com/worksoup/cxlib.git", branch = "explict-global-var" }
+cxlib_ui_solver = { git = "https://github.com/worksoup/cxlib_ui_solver.git" }
+# cxlib = { path = "../cxlib/" }
 env_logger = "0.11"
 inquire = "0.7"
 log = { version = "0.4", features = ["release_max_level_info"] }
 chrono = "0.4"
-slint = "1.9"
+slint = "1.12"
 
 [profile.release]
 panic = "abort"
@@ -55,11 +46,8 @@ panic = "abort"
 #lto = "fat"
 strip = "symbols"
 
-[target.'cfg(any(target_os = "linux", target_os = "windows", target_os = "macos"))'.dependencies]
-cxlib_captcha = { path = "./cxlib/crates/cxlib_captcha" }
-
 [build-dependencies]
-resvg = "0.44"
+resvg = "0.45"
 ico = "0.4"
 embed-resource = "3.0"
-slint-build = "1.9"
+slint-build = "1.12"

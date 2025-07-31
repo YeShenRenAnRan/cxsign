@@ -1,4 +1,4 @@
-# Copyright (C) 2024 worksoup <https://github.com/worksoup/>
+# Copyright (C) 2025 worksoup <https://github.com/worksoup/>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published
@@ -17,9 +17,9 @@ name: Rust
 
 on:
   push:
-    branches: [ "main", "dev" ]
+    branches: [ "main", "main-build", "dev", "dev-build" ]
   pull_request:
-    branches: [ "main", "dev" ]
+    branches: [ "main", "main-build", "dev", "dev-build" ]
 
 env:
   CARGO_TERM_COLOR: always
@@ -49,7 +49,7 @@ jobs:
         with:
           command: clippy
   build:
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main-build' || github.ref == 'refs/heads/dev-build' }}
     needs: [ check ]
     strategy:
       fail-fast: false
