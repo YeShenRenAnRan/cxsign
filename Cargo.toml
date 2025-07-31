@@ -15,7 +15,7 @@
 
 [package]
 name = "cxsign"
-version = "0.5.4"
+version = "0.6.0"
 edition = "2021"
 
 [lib]
@@ -24,14 +24,15 @@ crate-type = ["lib", "cdylib", "staticlib"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [features]
-default = ["cxlib/completion-all", "cxlib/ui_solver"]
+default = ["cxlib/completion-all"]
 completion = ["cxlib/completion"]
 
 [dependencies]
 # tikv-jemallocator = "0.5"
 clap = { version = "4.5" }
-cxlib = { path = "cxlib" }
-# cxsign = { path = "../newsign/" }
+cxlib = { git = "https://github.com/worksoup/cxlib.git", branch = "explict-global-var" }
+cxlib_ui_solver = { git = "https://github.com/worksoup/cxlib_ui_solver.git" }
+# cxlib = { path = "../cxlib/" }
 env_logger = "0.11"
 
 [profile.release]
