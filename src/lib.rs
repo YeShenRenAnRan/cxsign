@@ -13,12 +13,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-mod migrate;
-
 use cxlib::{
     types::{DefaultLoginSolver, UntypedLoginSolver},
-    AccountCmdApp, AccountsCmdApp, AppInfo, AppTrait, CmdApp, CmdAppContext, CoursesCmdApp, Dir,
-    GlobalMultimap, LocationCmdApp, LocationsCmdApp, SignMainApp, WhereIsConfigCmdApp,
+    AccountCmdApp, AccountsCmdApp, AppInfo, AppTrait, CmdApp, CmdAppContext, ConfigDir,
+    CoursesCmdApp, GlobalMultimap, LocationCmdApp, LocationsCmdApp, SignMainApp,
+    WhereIsConfigCmdApp,
 };
 
 pub fn run() {
@@ -33,11 +32,18 @@ pub fn run() {
             "Worksoup",
             env!("CARGO_PKG_NAME"),
         );
-        let dir = Dir::new_with_app_info(&app_info);
+        let dir = ConfigDir::new(&app_info);
+        let database_file_name = app_info.application();
         let solvers = GlobalMultimap::default();
         solvers.register_builder(|| UntypedLoginSolver::from_typed(DefaultLoginSolver::default()));
         (
-            CmdAppContext::new(dir, self_.command().clone(), solvers, app_info),
+            CmdAppContext::new(
+                dir,
+                database_file_name,
+                self_.command().clone(),
+                solvers,
+                app_info,
+            ),
             (),
         )
     }
