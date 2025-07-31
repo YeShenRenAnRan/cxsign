@@ -1,10 +1,10 @@
-import { CourseList } from "courselist.slint";
-import { ActivityList } from "activitylist.slint";
-import { AccountList } from "accountlist.slint";
+import { CourseList } from "course-widget.slint";
+import { ActivityList } from "activity-widget.slint";
+import { UserList } from "user-widget.slint";
 import { ScrollView } from "std-widgets.slint";
-import { UiCourse } from "courselist.slint";
-import { UiActivity } from "activitylist.slint";
-import { UiAccount } from "accountlist.slint";
+import { CourseListItem } from "course-widget.slint";
+import { ActivityListItem } from "activity-widget.slint";
+import { UserListItem } from "user-widget.slint";
 component WidgetBar {
     callback switch-to-course-page <=> course-bar.clicked;
     callback switch-to-account-page <=> account-bar.clicked;
@@ -32,12 +32,12 @@ component WidgetBar {
 
 enum HomePage{ course-page, activity-page, account-page }
 
-export component MainWidget {
+export component main-widget {
     in property <length> size: 32px;
     property <HomePage> page: HomePage.course-page;
-    in property <[UiCourse]> courses <=> course-list.courses;
-    in property <[UiActivity]> activities <=> activity-list.activities;
-    in property <[UiAccount]> accounts <=> account-list.accounts;
+    in property <[CourseListItem]> courses <=> course-list.courses;
+    in property <[ActivityListItem]> activities <=> activity-list.activities;
+    in property <[UserListItem]> accounts <=> account-list.accounts;
     VerticalLayout {
         scroll:= Rectangle {
             min-height: size * 9;
@@ -48,7 +48,7 @@ export component MainWidget {
                 height: scroll.height;
                 course-list:= CourseList {}
                 activity-list:= ActivityList {}
-                account-list:= AccountList {}
+                account-list:= UserList {}
                 animate x {
                     easing: ease-in-out;
                     duration: 200ms;

@@ -1,6 +1,6 @@
 import { ListView , VerticalBox} from "std-widgets.slint";
 
-export struct UiCourse {
+export struct CourseListItem {
     name: string,
     teacher: string,
 }
@@ -27,7 +27,7 @@ component CourseWidget {
     }
 }
 export component CourseList {
-    in property <[UiCourse]> courses: [
+    in property <[CourseListItem]> courses: [
         {name: "Name", teacher: "Teacher"},
         {name: "Name", teacher: "Teacher"},
         {name: "Name", teacher: "Teacher"},

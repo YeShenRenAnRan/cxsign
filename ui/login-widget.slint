@@ -1,0 +1,63 @@
+import { Icon } from "icon.slint";
+import { LineEdit , Button, VerticalBox, HorizontalBox, ComboBox} from "std-widgets.slint";
+component UnameEdit {
+    max-height: 32px;
+    in property <[string]> login-types;
+    out property <string> uname <=> line-edit.text;
+    out property <string> login-type <=> box.current-value;
+    HorizontalLayout {
+        box := ComboBox {
+            model: login-types;
+            current-value: "default";
+            width: 80px;
+        }
+
+        spacing: 7px;
+
+        line-edit := LineEdit {
+            placeholder-text: @tr("超星账号（手机号码）");
+        }
+    }
+}
+
+component PwdEdit {
+    forward-focus: edit;
+    max-height: 32px;
+    out property <string> pwd <=> line-edit.text;
+    edit := FocusScope {
+        forward-focus: line-edit;
+        HorizontalLayout {
+            line-edit := LineEdit {
+                placeholder-text: @tr("你的密码");
+                input-type: InputType.password;
+            }
+        }
+    }
+}
+
+export component login-widget {
+    callback clicked <=> button.clicked;
+    out property <string> uname <=> uname-edit.uname;
+    out property <string> pwd <=> pwd-edit.pwd;
+    in property <bool> enabled: true;
+    VerticalLayout {
+        Icon {
+            size: 64px;
+        }
+
+        VerticalBox {
+            uname-edit := UnameEdit { }
+
+            pwd-edit := PwdEdit { }
+
+            HorizontalBox {
+                alignment: center;
+                button := Button {
+                    enabled: enabled;
+                    max-height: 32px;
+                    text: @tr("登录");
+                }
+            }
+        }
+    }
+}

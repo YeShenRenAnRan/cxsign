@@ -1,6 +1,6 @@
 import { ListView } from "std-widgets.slint";
 
-export struct UiActivity {
+export struct ActivityListItem {
     name: string,
     image: image,
     teacher: string,
@@ -40,7 +40,7 @@ component ActivityWidget {
     }
 }
 export component ActivityList {
-    in property <[UiActivity]> activities: [
+    in property <[ActivityListItem]> activities: [
         {name: "Name", image: @image-url("assets/icon/activity.svg"), teacher: "Teacher"},
         {name: "Name", image: @image-url("assets/icon/activity.svg"), teacher: "Teacher"},
         {name: "Name", image: @image-url("assets/icon/activity.svg"), teacher: "Teacher"},

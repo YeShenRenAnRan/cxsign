@@ -64,5 +64,5 @@ fn handle_resource() {
 }
 fn main() {
     handle_resource();
-    slint_build::compile("ui/mainwindow.slint").expect("Slint build failed");
+    slint_build::compile("ui/main-window.slint").expect("Slint build failed");
 }
