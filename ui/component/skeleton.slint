@@ -1,33 +1,15 @@
 import { GroupBox, HorizontalBox, VerticalBox } from "std-widgets.slint";
-component GradientRectangle {
-    Rectangle {
-        property <angle> gradient-angle: Math.atan(self.height / self.width);
-        property <color> base-color: #a7a7a7;
-        property <color> brighter-color: #c0c0c0;
-        property <percent> brighter-position: 50%;
-        property <percent> bar-half-width: 0%;
-        property <percent> gradient-width: 15%;
-        background: @linear-gradient(-gradient-angle, brighter-color bar-half-width, base-color bar-half-width + gradient-width, base-color brighter-position - bar-half-width - gradient-width, brighter-color brighter-position - bar-half-width, brighter-color brighter-position + bar-half-width, base-color brighter-position + bar-half-width + gradient-width, base-color 100% - bar-half-width - gradient-width, brighter-color 100% - bar-half-width);
-        animate background { }
-    }
-}
 
 export component Skeleton {
     // WIP
     VerticalBox {
         Rectangle {
-            property <float> x-a: animation-tick() / 1s;
-            property <float> x-gen: x-a - Math.floor(x-a);
-            clip: true;
-            r1 := GradientRectangle {
-                width: parent.width;
-                x: x-gen * self.width - self.width;
-            }
-
-            r2 := GradientRectangle {
-                width: parent.width;
-                x: x-gen * self.width;
-            }
+            border-radius: 20px;
+            property <color> base-color: #d5d5d5;
+            property <color> brighter-color: #c0c0c0;
+            property <float> mix:abs(sin(360deg * animation-tick() / 3s));
+            background: base-color.mix(brighter-color, mix);
+            animate background { }
         }
     }
 }
