@@ -32,7 +32,7 @@ component WidgetBar {
 
 enum HomePage{ course-page, activity-page, account-page }
 
-export component main-widget {
+export component MainWidget {
     in property <length> size: 32px;
     property <HomePage> page: HomePage.course-page;
     in property <[CourseListItem]> courses <=> course-list.courses;

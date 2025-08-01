@@ -1,7 +1,7 @@
 
 import { GroupBox , Button} from "std-widgets.slint";
-import { login-widget } from "login-widget.slint";
-import { main-widget } from "main-widget.slint";
+import { LoginWidget } from "login-widget.slint";
+import { MainWidget } from "main-widget.slint";
 import { CourseListItem } from "course-widget.slint";
 import { ActivityListItem } from "activity-widget.slint";
 import { UserListItem } from "user-widget.slint";
@@ -16,13 +16,13 @@ export component MainWindow inherits Window {
     in property <[ActivityListItem]> activities;
     in property <[UserListItem]> accounts;
 
-    if page==MainPage.login-page: login-widget:= login-widget {
+    if page==MainPage.login-page: login-widget:= LoginWidget {
         enabled: login-widget-enabled;
         clicked => {
             login(login-widget.uname, login-widget.pwd);
         }
     }
-    if page==MainPage.main-page: main-widget:= main-widget {
+    if page==MainPage.main-page: main-widget:= MainWidget {
         courses: courses;
         activities: activities;
         accounts: accounts;
