@@ -8,7 +8,7 @@ export struct UserListItem {
 
 component UserWidget {
     in property <string> name: "Name";
-    in property <image> avatar: @image-url("assets/icon/account.svg");
+    in property <image> avatar: @image-url("../assets/icon/account.svg");
     in property <string> teacher: "Teacher";
     HorizontalLayout {
         HorizontalLayout{
@@ -41,15 +41,15 @@ component UserWidget {
 }
 export component UserList {
     in property <[UserListItem]> accounts: [
-        {name: "Name", avatar: @image-url("assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("assets/icon/account.svg"), teacher: "Teacher"},
+        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
+        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
+        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
+        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
+        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
+        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
+        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
+        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
+        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
     ];
     ListView {
         for account in accounts: UserWidget {

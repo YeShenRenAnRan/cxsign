@@ -1,15 +1,14 @@
 import { GroupBox, HorizontalBox, VerticalBox } from "std-widgets.slint";
 
 export component Skeleton {
-    // WIP
     VerticalBox {
         Rectangle {
-            border-radius: 20px;
+            property <length> min-size:min(self.width, self.height);
+            border-radius: min-size * 15%;
             property <color> base-color: #d5d5d5;
-            property <color> brighter-color: #c0c0c0;
+            property <color> brighter-color: base-color.brighter(0.05);
             property <float> mix:abs(sin(360deg * animation-tick() / 3s));
             background: base-color.mix(brighter-color, mix);
-            animate background { }
         }
     }
 }

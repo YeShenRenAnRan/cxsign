@@ -8,7 +8,7 @@ export struct ActivityListItem {
 
 component ActivityWidget {
     in property <string> name: "Name";
-    in property <image> image: @image-url("assets/icon/activity.svg");
+    in property <image> image: @image-url("../assets/icon/activity.svg");
     in property <string> teacher: "Teacher";
     HorizontalLayout {
         HorizontalLayout{
@@ -41,15 +41,15 @@ component ActivityWidget {
 }
 export component ActivityList {
     in property <[ActivityListItem]> activities: [
-        {name: "Name", image: @image-url("assets/icon/activity.svg"), teacher: "Teacher"},
-        {name: "Name", image: @image-url("assets/icon/activity.svg"), teacher: "Teacher"},
-        {name: "Name", image: @image-url("assets/icon/activity.svg"), teacher: "Teacher"},
-        {name: "Name", image: @image-url("assets/icon/activity.svg"), teacher: "Teacher"},
-        {name: "Name", image: @image-url("assets/icon/activity.svg"), teacher: "Teacher"},
-        {name: "Name", image: @image-url("assets/icon/activity.svg"), teacher: "Teacher"},
-        {name: "Name", image: @image-url("assets/icon/activity.svg"), teacher: "Teacher"},
-        {name: "Name", image: @image-url("assets/icon/activity.svg"), teacher: "Teacher"},
-        {name: "Name", image: @image-url("assets/icon/activity.svg"), teacher: "Teacher"},
+        {name: "Name", image: @image-url("../assets/icon/activity.svg"), teacher: "Teacher"},
+        {name: "Name", image: @image-url("../assets/icon/activity.svg"), teacher: "Teacher"},
+        {name: "Name", image: @image-url("../assets/icon/activity.svg"), teacher: "Teacher"},
+        {name: "Name", image: @image-url("../assets/icon/activity.svg"), teacher: "Teacher"},
+        {name: "Name", image: @image-url("../assets/icon/activity.svg"), teacher: "Teacher"},
+        {name: "Name", image: @image-url("../assets/icon/activity.svg"), teacher: "Teacher"},
+        {name: "Name", image: @image-url("../assets/icon/activity.svg"), teacher: "Teacher"},
+        {name: "Name", image: @image-url("../assets/icon/activity.svg"), teacher: "Teacher"},
+        {name: "Name", image: @image-url("../assets/icon/activity.svg"), teacher: "Teacher"},
     ];
     ListView {
         for activity in activities: ActivityWidget {
