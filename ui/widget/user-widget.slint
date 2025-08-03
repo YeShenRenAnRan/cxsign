@@ -11,7 +11,7 @@ component UserWidget {
     in property <image> avatar: @image-url("../assets/icon/account.svg");
     in property <string> teacher: "Teacher";
     HorizontalLayout {
-        HorizontalLayout{
+        HorizontalLayout {
             alignment: start;
             Image {
                 min-height: 32px;
@@ -21,14 +21,16 @@ component UserWidget {
                 source: avatar;
             }
         }
-        HorizontalLayout{
+
+        HorizontalLayout {
             alignment: center;
             VerticalLayout {
                 alignment: center;
-                name-text:= Text {
+                name-text := Text {
                     horizontal-alignment: left;
                     text: name;
                 }
+
                 Text {
                     horizontal-alignment: left;
                     font-size: 10px;
@@ -39,17 +41,18 @@ component UserWidget {
         }
     }
 }
+
 export component UserList {
     in property <[UserListItem]> accounts: [
-        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
-        {name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher"},
+        { name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher" },
+        { name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher" },
+        { name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher" },
+        { name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher" },
+        { name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher" },
+        { name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher" },
+        { name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher" },
+        { name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher" },
+        { name: "Name", avatar: @image-url("../assets/icon/account.svg"), teacher: "Teacher" },
     ];
     ListView {
         for account in accounts: UserWidget {

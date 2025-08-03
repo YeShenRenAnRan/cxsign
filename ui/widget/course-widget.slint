@@ -10,13 +10,14 @@ component CourseWidget {
     in property <string> teacher: "Teacher";
     in property <int> id;
     callback clicked <=> touch-area.clicked;
-    touch-area:= TouchArea {
-        VerticalLayout { 
-            name-text:= Text {
+    touch-area := TouchArea {
+        VerticalLayout {
+            name-text := Text {
                 horizontal-alignment: left;
                 font-size: 15px;
                 text: name;
             }
+
             Text {
                 horizontal-alignment: left;
                 font-size: 10px;
@@ -26,17 +27,18 @@ component CourseWidget {
         }
     }
 }
+
 export component CourseList {
     in property <[CourseListItem]> courses: [
-        {name: "Name", teacher: "Teacher"},
-        {name: "Name", teacher: "Teacher"},
-        {name: "Name", teacher: "Teacher"},
-        {name: "Name", teacher: "Teacher"},
-        {name: "Name", teacher: "Teacher"},
-        {name: "Name", teacher: "Teacher"},
-        {name: "Name", teacher: "Teacher"},
-        {name: "Name", teacher: "Teacher"},
-        {name: "Name", teacher: "Teacher"},
+        { name: "Name", teacher: "Teacher" },
+        { name: "Name", teacher: "Teacher" },
+        { name: "Name", teacher: "Teacher" },
+        { name: "Name", teacher: "Teacher" },
+        { name: "Name", teacher: "Teacher" },
+        { name: "Name", teacher: "Teacher" },
+        { name: "Name", teacher: "Teacher" },
+        { name: "Name", teacher: "Teacher" },
+        { name: "Name", teacher: "Teacher" },
     ];
     ListView {
         for course in courses: CourseWidget {

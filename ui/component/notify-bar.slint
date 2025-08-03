@@ -1,0 +1,75 @@
+export component NotifyBar {
+    y: 0;
+    width: 0;
+    height: 0;
+    in property <length> text-max-width;
+    in property <brush> text-color: black;
+    in property <brush> bar-color: #c0c0c0c0;
+    in property <length> border-radius: 10px;
+    in property <length> bar-position: 5px;
+    in property <duration> interval: 2.5s;
+    in property <length> bar-spacing: 10px;
+    in property <duration> animate-duration: 100ms;
+    property <string> notify-content;
+    Rectangle {
+        clip: false;
+        bar := Rectangle {
+            width: text.width + bar-spacing;
+            y: - self.height;
+            height: text.height + 2 * bar-spacing;
+            border-radius: border-radius;
+            background: bar-color;
+            text := Text {
+                max-width: text-max-width;
+                color: text-color;
+                y: bar-spacing;
+                vertical-alignment: center;
+                text: notify-content;
+            }
+
+            animate y {
+                duration: animate-duration;
+                easing: ease-out-sine;
+            }
+            animate background { duration: animate-duration; }
+        }
+    }
+
+    timer := Timer {
+        interval: interval;
+        running: false;
+        triggered => {
+            debug(bar.y);
+            bar.y = - bar.height;
+            bar.background = bar-color.with-alpha(0);
+            timer.running = false;
+        }
+    }
+
+    public function notify(content: string) {
+        timer.running = false;
+        bar.y = - bar.height;
+        bar.background = bar-color.with-alpha(0);
+        notify-content = content;
+        timer.running = true;
+        bar.y = bar-position;
+        bar.background = bar-color;
+        debug(bar.y);
+        on-notify(content)
+    }
+    callback on-notify(content: string);
+}
+
+export component NotifyBarTest inherits Window {
+    notifier := NotifyBar { }
+
+    timer := Timer {
+        interval: 0.5s;
+        running: true;
+        triggered => {
+            debug("asdasd");
+            notifier.notify("sdaasdads.");
+            timer.running = false;
+        }
+    }
+}

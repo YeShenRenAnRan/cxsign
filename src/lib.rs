@@ -13,8 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-slint::include_modules!();
-
+mod ui;
 use cxlib::{
     types::{DefaultLoginSolver, UntypedLoginSolver},
     AccountCmdApp, AccountsCmdApp, AppInfo, AppTrait, CmdApp, CmdAppContext, ConfigDir,
@@ -60,4 +59,16 @@ pub fn run() {
     #[cfg(feature = "completion")]
     let cmd_app = cmd_app.meta_app::<cxlib::CompletionCmdApp>();
     cmd_app.init_and_run(init)
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::ui::NotifyBarTest;
+    use slint::ComponentHandle;
+
+    #[test]
+    fn test_nofitier() {
+        let window = NotifyBarTest::new().unwrap();
+        window.run().unwrap();
+    }
 }
