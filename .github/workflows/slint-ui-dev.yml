@@ -1,0 +1,113 @@
+# Copyright (C) 2024 worksoup <https://github.com/worksoup/>
+#
+# This program is free software: you can redistribute it and/or modify
+# under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+name: Rust
+
+on:
+  push:
+    # 仅当推送到 slint-ui-dev 分支时触发
+    branches: [ "slint-ui-dev" ]
+  pull_request:
+    # 仅当 PR 目标为 slint-ui-dev 分支时触发
+    branches: [ "slint-ui-dev" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  check:
+    name: Rust Check & Clippy
+    runs-on: ubuntu-latest
+    steps:
+      # 建议使用 v4
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      
+      - name: Install Dependencies
+        run: sudo apt update && sudo apt-get install -yqq libdbus-1-dev libxcb1-dev
+
+      # 建议使用 v2
+      - name: Install latest nightly
+        uses: crusty-pie/toolchain@v2
+        with:
+          toolchain: nightly
+          override: true
+          components: clippy
+          
+      - name: Run cargo check
+        uses: clechasseur/rs-cargo@v2
+        with:
+          command: check
+          
+      - name: Run cargo clippy
+        uses: clechasseur/rs-cargo@v2
+        with:
+          command: clippy
+
+  build:
+    # <<<<<<<<<<<<<<<< 关键修改在这里 >>>>>>>>>>>>>>>>>
+    # 仅当工作流程在 'slint-ui-dev' 分支上运行时才执行构建
+    if: ${{ github.ref == 'refs/heads/slint-ui-dev' }}
+    needs: [ check ]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest }
+          - { os: windows-2022 }
+          - { os: macos-13 }
+          
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      # 建议使用 v4
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          
+      - name: Install Dependencies (Linux)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: sudo apt update && sudo apt-get install -yqq libdbus-1-dev libxcb1-dev
+        
+      # 建议使用 v2
+      - name: Install latest nightly
+        uses: crusty-pie/toolchain@v2
+        with:
+          toolchain: nightly
+          override: true
+          
+      - name: Run cargo build
+        uses: clechasseur/rs-cargo@v2
+        with:
+          command: build
+          args: --release --all-features
+          
+      - name: Upload Artifact (Linux/macOS)
+        if: ${{ matrix.os != 'windows-2022' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: '${{ matrix.os }}-build-artifact'
+          # 注意：路径可能需要根据你的实际项目结构进行调整
+          path: '${{ github.workspace }}/target/release/*sign'
+          
+      - name: Upload Artifact (Windows)
+        if: ${{ matrix.os == 'windows-2022' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: '${{ matrix.os }}-build-artifact'
+          # 注意：路径可能需要根据你的实际项目结构进行调整
+          path: '${{ github.workspace }}/target/release/*sign.exe'
